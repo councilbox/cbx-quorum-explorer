@@ -1,5 +1,7 @@
 # councilbox-quorum-explorer
 
+![Screenshot](misc/screenshot.png "Screenshot")
+
 ## Deploy your explorer 🚀
 Requirements:
 - docker
