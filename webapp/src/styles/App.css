@@ -1,0 +1,13 @@
+.App {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    height: auto !important; /* real browsers */
+    min-height: 100vh; /* IE6: treaded as min-height*/
+}
+
+body, html {
+    font-family: 'Lato';
+    font-size: 14px;
+    overflow-x: hidden;
+}
