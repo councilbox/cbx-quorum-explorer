@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-//import logo from "../../logo.png";
-import logo from '../../assets/img/logo-xs.png';
+import logo from "../../logo.png";
+// import logo from '../../assets/img/logo-xs.png';
 import smallIcon from '../../assets/img/logo-icono.png';
 import { Paper } from 'material-ui';
 import SearchInput from "../../displayComponents/SearchInput";
