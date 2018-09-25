@@ -1,0 +1,13 @@
+*~
+database/
+.DS_Store
+http-api/services/__pycache__/
+MONGO_DATA_DIR
+EXPLORER_DOMAIN
+WEBAPP_PORT
+API_DOMAIN
+API_PORT
+EXTERNAL_API_PORT
+ENABLE_SSL
+EXPLORER_PORT
+docker-compose.yaml
