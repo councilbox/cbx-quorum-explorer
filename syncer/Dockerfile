@@ -23,5 +23,5 @@ MAINTAINER "Rodrigo Martínez" <rodrigo.martinez@councilbox.com>
 
 FROM brunneis/web3py
 RUN pip install pymongo
-COPY sync.py /usr/local/bin/sync.py
-ENTRYPOINT ["sync.py"]
+COPY syncer.py /usr/local/bin/syncer.py
+ENTRYPOINT ["syncer.py"]

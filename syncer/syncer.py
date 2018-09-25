@@ -34,7 +34,7 @@ class Filler:
         try:
             self.QUORUM_HOST = environ['QUORUM_HOST']
         except KeyError:
-            self.QUORUM_HOST = "145.239.197.140"
+            self.QUORUM_HOST = "localhost"
         try:
             self.QUORUM_PORT = environ['QUORUM_PORT']
         except KeyError:
