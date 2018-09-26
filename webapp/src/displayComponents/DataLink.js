@@ -13,7 +13,7 @@ class DataLink extends React.Component {
             return `/account/${this.props.valueId}/transactions`;
         }
         if(this.props.children){
-            return `/${this.props.type}/${isNaN(this.props.children)? this.props.children.split('.').join('') : this.props.children}`;
+            return `/${this.props.type}/${this.props.children.toString().split('.').join('')}`;
         }
         return '/';
     }

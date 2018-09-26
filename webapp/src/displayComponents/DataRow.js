@@ -2,6 +2,7 @@ import React from 'react';
 import DataLink from '../displayComponents/DataLink';
 import Grid from '../displayComponents/Grid';
 import GridItem from '../displayComponents/GridItem';
+import { overflowText } from '../styles/commonStyles';
 
 const DataRow = props =>  {
     const _renderValue = () => {
@@ -74,9 +75,9 @@ const DataRow = props =>  {
                     let processedValue = value.slice(1);
                     processedValue = processedValue.slice(0, -1);
                     const items = processedValue.split(',');
-                    return items.map((item, index) => <div key={`${key}_${index}`}>{`- ${item.replace(/\'/g, '')}`}</div>);
+                    return items.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/\'/g, '')}`}</div>);
                 }
-                return value.map((item, index) => <div key={`${key}_${index}`}>{`- ${item.replace(/\'/g, '')}`}</div>);
+                return value.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/\'/g, '')}`}</div>);
             }
 
             if(Array.isArray(value)){
