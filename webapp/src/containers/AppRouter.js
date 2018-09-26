@@ -29,8 +29,8 @@ class AppRouter extends React.Component {
                     }}/>
                     {["/transactions",
                         "/blocks",
-                        "/block/:value/transactions/:page",
-                        "/account/:value/transactions/:page"].map(path =>
+                        "/block/:value/transactions",
+                        "/account/:value/transactions"].map(path =>
                         <Route key={path} path={path} render={(props) => {
                             return(
                                 <TablePage

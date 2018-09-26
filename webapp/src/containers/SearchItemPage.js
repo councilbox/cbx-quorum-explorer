@@ -27,25 +27,29 @@ class SearchItemPage extends Component {
     }
 
     async search(query) {
-        const response = await fetch(`${API_SEARCH_ENDPOINT}${query}`);
-        const json = await response.json();
-        console.log(json);
-        if(json.result){
-            this.setState({
-                type: json.type,
-                query: query,
-                data: json,
-                error: false,
-                loading: false
-            });
-        }else {
-            this.setState({
-                query: query,
-                data: json.error,
-                error: true,
-                loading: false
-            })
+        try {
+            const response = await fetch(`${API_SEARCH_ENDPOINT}${query}`);
+            const json = await response.json();
+            if(json.result){
+                this.setState({
+                    type: json.type,
+                    query: query,
+                    data: json,
+                    error: false,
+                    loading: false
+                });
+            }else {
+                this.setState({
+                    query: query,
+                    data: json.error,
+                    error: true,
+                    loading: false
+                })
+            }
+        } catch (error){
+            console.log(error);
         }
+ 
     }
 
     render() {
@@ -59,7 +63,7 @@ class SearchItemPage extends Component {
                     :
                         <React.Fragment>
                             {this.state.error?
-                                <div style={{marginTop: '5em'}}>
+                                <div>
                                     <SearchError query={this.state.query} hashError={this.state.data !== 'Invalid query'}/>
                                 </div>
                             :

@@ -74,9 +74,9 @@ const DataRow = props =>  {
                     let processedValue = value.slice(1);
                     processedValue = processedValue.slice(0, -1);
                     const items = processedValue.split(',');
-                    return items.map((item, index) => <span key={`${key}_${index}`}>{item.replace(/\'/g, '')}</span>);
+                    return items.map((item, index) => <div key={`${key}_${index}`}>{`- ${item.replace(/\'/g, '')}`}</div>);
                 }
-                return value.map((item, index) => <span key={`${key}_${index}`}>{item.replace(/\'/g, '')}</span>);
+                return value.map((item, index) => <div key={`${key}_${index}`}>{`- ${item.replace(/\'/g, '')}`}</div>);
             }
 
             if(Array.isArray(value)){

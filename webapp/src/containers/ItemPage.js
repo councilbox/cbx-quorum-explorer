@@ -5,6 +5,7 @@ import Transaction from "../components/Transactions/Transaction";
 import LoadingSection from '../displayComponents/LoadingSection';
 import { API_BLOCK_ENDPOINT, API_ACCOUNT_ENDPOINT, API_TRANSACTION_ENDPOINT } from '../config';
 import Scrollbar from '../displayComponents/Scrollbar';
+import SearchError from '../displayComponents/SearchError';
 
 class ItemPage extends React.Component {
     state = {
@@ -60,7 +61,8 @@ class ItemPage extends React.Component {
     async sendRequest(query, endpoint) {
         const response = await fetch(`${endpoint}${query}`);
         const json = await response.json();
-        if(!json.error){
+        console.log(json);
+        if(json.result){
             this.setState({
                 title: json.type,
                 data: json.result,
@@ -68,8 +70,7 @@ class ItemPage extends React.Component {
             })
         } else {
             this.setState({
-                title: json.type,
-                data: json.error.message,
+                data: '404',
                 hasError: true,
                 loading: false
             });
@@ -83,7 +84,10 @@ class ItemPage extends React.Component {
                     {(this.state.loading === false && this.state.data)?
                         <React.Fragment>
                             {this.state.hasError?
-                                <div style={{textAlign: "center"}}>{this.state.data}</div>
+                                <SearchError
+                                    query={this.props.match.params.value}
+                                    hashError={true}
+                                />
                             :
                                 <React.Fragment>
                                     {this.props.history.location.pathname.includes("block") &&
