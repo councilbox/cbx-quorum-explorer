@@ -61,7 +61,6 @@ class ItemPage extends React.Component {
     async sendRequest(query, endpoint) {
         const response = await fetch(`${endpoint}${query}`);
         const json = await response.json();
-        console.log(json);
         if(json.result){
             this.setState({
                 title: json.type,

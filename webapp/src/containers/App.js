@@ -26,7 +26,6 @@ import SideMenu from '../components/Menus/SideMenu';
 import ThemeProvider from '../displayComponents/ThemeProvider';
 import { lightGrey, darkGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
-import { isMobile } from 'react-device-detect';
 
 class App extends React.Component {
 
