@@ -3,3 +3,9 @@ database/
 .DS_Store
 http-api/services/__pycache__/
 docker-compose.yaml
+docker-compose.yaml.template
+syncer/build.sh
+http-api/build.sh
+webapp/build.sh
+push.sh
+env.sh
