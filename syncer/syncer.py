@@ -1,6 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Councilbox Quorum Explorer HTTP API
+# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import json
 from hexbytes import HexBytes
 import pymongo
@@ -12,6 +28,7 @@ from web3.middleware import geth_poa_middleware
 import web3.exceptions
 from os import environ
 from bson import Int64
+import time
 
 
 class Filler:
@@ -30,7 +47,7 @@ class Filler:
         self.w3.middleware_stack.inject(geth_poa_middleware, layer=0)
 
     def __init__(self):
-        ### Environment variables #############################################
+        # Environment variables
         try:
             self.QUORUM_HOST = environ['QUORUM_HOST']
         except KeyError:
@@ -47,14 +64,12 @@ class Filler:
             self.MONGO_PORT = environ['MONGO_PORT']
         except KeyError:
             self.MONGO_PORT = 27017
-        #######################################################################
 
-        ### Create connections ################################################
+        # Create connections
         self.connect_quorum()
         self.connect_mongo()
-        #######################################################################
 
-        ### Create indexes ####################################################
+        # Create indexes
         self.blocks.create_index('hash',
                                  unique=True,
                                  background=True)
@@ -80,7 +95,6 @@ class Filler:
         # For contracts
         self.accounts.create_index('creationTransaction',
                                    background=True)
-        #######################################################################
 
     @staticmethod
     def get_serializable_dict(input_dict):
@@ -155,7 +169,11 @@ class Filler:
         return tx_dict
 
     def insert_block(self):
-        block = self.get_block_data()
+        try:
+            block = self.get_block_data()
+        except AttributeError:
+            return False
+
         try:
             self.blocks.update_one({'number': block['number']},
                                    {'$set': block},
@@ -166,6 +184,8 @@ class Filler:
 
         for tx_hash in block['transactions']:
             self.insert_tx(tx_hash)
+
+        return True
 
     def update_account(self, address, creation_tx=None):
         address = address.lower()
@@ -252,8 +272,10 @@ if __name__ == '__main__':
     running = True
     while(running):
         try:
-            logging.info(f"Inserting block {filler.current_status['block_height']}...")
-            filler.insert_block()
+            logging.info(f"Requesting block {filler.current_status['block_height']}...")
+            if not filler.insert_block():
+                time.sleep(1)
+                continue
 
             # Mark block as completed
             filler.current_status['completed'] = True
@@ -266,11 +288,12 @@ if __name__ == '__main__':
             filler.update_remote_current_status()
 
         except Exception as e:
-            # logging.exception("message")
+            logging.exception("message")
+            time.sleep(1)
+
             # Mongo error
             if e.__class__.__name__ in dir(pymongo.errors):
                 filler.connect_mongo()
-
             # Web3 error
             elif e.__class__.__name__ in dir(web3.exceptions):
                 filler.connect_quorum()

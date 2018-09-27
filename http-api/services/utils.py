@@ -21,17 +21,20 @@ from web3 import Web3
 import subprocess
 
 
-def clean_block(block):
+def clean_block(block, extra_data_format=None):
     block.pop('_id')
     block['transactions'] = len(block['transactions'])
     extraData = decode_extra_data(block['extraData'])
-    block.pop('extraData')
-    block['vanity'] = extraData['vanity']
-    block['validators'] = extraData['validators']
-    block['seal'] = extraData['seal']
-    # Special case for genesis block
-    if 'committed_seals' in extraData:
-        block['committedSeals'] = extraData['committed_seals']
+
+    # Istanbul BFT
+    if extra_data_format == 'ibft':
+        block.pop('extraData')
+        block['vanity'] = extraData['vanity']
+        block['validators'] = extraData['validators']
+        block['seal'] = extraData['seal']
+        # Special case for the genesis block
+        if 'committed_seals' in extraData:
+            block['committedSeals'] = extraData['committed_seals']
 
 def clean_transaction(transaction):
     transaction.pop('_id')

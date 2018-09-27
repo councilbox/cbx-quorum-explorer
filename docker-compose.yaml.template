@@ -17,9 +17,9 @@ x-extended-logging:
 services:
 
   mongodb:
-    image: mongo:3.4.10
+    image: mongo:4.0-xenial
     volumes:
-        - {{MONGO_DATA_DIR}}:/data/db
+      - {{MONGO_DATA_DIR}}:/data/db
     entrypoint: mongod --smallfiles --bind_ip "0.0.0.0"
     logging: *extended-logging
 
@@ -27,22 +27,22 @@ services:
     image: councilbox/quorum-explorer-syncer
     logging: *default-logging
     environment:
-        - QUORUM_HOST={{QUORUM_HOST}}
+      - QUORUM_HOST={{QUORUM_HOST}}
     depends_on:
-        - mongodb
+      - mongodb
 
   http-api:
     image: councilbox/quorum-explorer-http-api
     ports:
-        - {{API_PORT}}:8080
+      - {{API_PORT}}:8080
     logging: *default-logging
     depends_on:
-        - mongodb
+      - mongodb
 
   webapp:
     image: councilbox/quorum-explorer-webapp
     ports:
-        - {{EXPLORER_PORT}}:80
+      - {{EXPLORER_PORT}}:80
     environment:
-        - API_URL=http{{SSL}}://{{API_DOMAIN}}:{{EXTERNAL_API_PORT}}
+      - API_URL=http{{SSL}}://{{API_DOMAIN}}:{{EXTERNAL_API_PORT}}
     logging: *default-logging

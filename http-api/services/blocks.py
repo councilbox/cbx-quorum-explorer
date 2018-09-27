@@ -25,6 +25,7 @@ from services.utils import (
     clean_block,
     get_output,
 )
+from os import environ
 
 
 class Block(Resource):
@@ -32,6 +33,10 @@ class Block(Resource):
         self.mongo_client = MongoClient(conf.mongo['address'],
                                         conf.mongo['port'])
         self.database = self.mongo_client.quorum
+        try:
+            self.extra_data_format = environ['EXTRA_DATA_FORMAT']
+        except KeyError:
+            self.extra_data_format = None
 
     def get(self):
         value = request.args.get('value', type=str)
@@ -40,12 +45,12 @@ class Block(Resource):
             field = 'number'
         except ValueError:
             field = 'hash'
-        if not value:
-            return {}, 400
+            if len(value) != 66:
+                return {}, 400
 
         block = self.database.blocks.find_one({field: value})
         if block:
-            clean_block(block)
+            clean_block(block, self.extra_data_format)
             return get_output(block, 'block'), 200
         return {}, 404
 
