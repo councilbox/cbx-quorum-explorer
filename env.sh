@@ -1,4 +1,4 @@
-QUORUM_HOST=
+QUORUM_HOST=alastria-reg-00.councilbox.com
 ENABLE_SSL=
 EXPLORER_PORT=
 API_DOMAIN=

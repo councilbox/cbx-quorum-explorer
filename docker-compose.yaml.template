@@ -24,7 +24,7 @@ services:
     logging: *extended-logging
 
   syncer:
-    image: councilbox/quorum-explorer-syncer
+    image: councilbox/alastria-explorer-syncer
     logging: *default-logging
     environment:
       - QUORUM_HOST={{QUORUM_HOST}}
@@ -32,7 +32,7 @@ services:
       - mongodb
 
   http-api:
-    image: councilbox/quorum-explorer-http-api
+    image: councilbox/alastria-explorer-http-api
     ports:
       - {{API_PORT}}:8080
     logging: *default-logging
@@ -40,7 +40,7 @@ services:
       - mongodb
 
   webapp:
-    image: councilbox/quorum-explorer-webapp
+    image: councilbox/alastria-explorer-webapp
     ports:
       - {{EXPLORER_PORT}}:80
     environment:

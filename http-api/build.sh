@@ -8,5 +8,5 @@ tar --dereference -c -f http-api.tar.gz \
     conf \
     api.py
 
-docker build -t councilbox/quorum-explorer-http-api .
+docker build -t councilbox/alastria-explorer-http-api .
 rm -f http-api.tar.gz

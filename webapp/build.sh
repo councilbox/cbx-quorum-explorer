@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t councilbox/quorum-explorer-webapp .
+docker build -t councilbox/alastria-explorer-webapp .

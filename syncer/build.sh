@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t councilbox/quorum-explorer-syncer .
+docker build -t councilbox/alastria-explorer-syncer .
