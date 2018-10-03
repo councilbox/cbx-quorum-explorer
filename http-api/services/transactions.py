@@ -68,8 +68,12 @@ class Transactions(Resource):
         if from_:
             if order == 'desc':
                 query['_id'] = {'$lt': from_}
-            else:
+                order = -1
+            elif order == 'asc':
                 query['_id'] = {'$gt': from_}
+                order = 1
+        else:
+            order = -1
 
         address = request.args.get('address', type=str)
         if address:
@@ -92,8 +96,7 @@ class Transactions(Resource):
                     return {}, 400
 
         result = self.database.transactions.find(
-            query,
-            sort=[('_id', -1)]).limit(limit)
+            query, sort=[('_id', order)]).limit(limit)
 
         block_timestamps = {}
         transactions = []
@@ -104,4 +107,9 @@ class Transactions(Resource):
             transaction['timestamp'] = block_timestamps[transaction['blockNumber']]
             transaction = get_clean_transaction_row(transaction)
             transactions.append(transaction)
+
+        # Reverse list if asc
+        if order == 1:
+            blocks = blocks[::-1]
+
         return get_output(transactions, 'latest transactions'), 200
