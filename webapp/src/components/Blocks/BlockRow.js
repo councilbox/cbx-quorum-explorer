@@ -21,7 +21,7 @@ const BlockRow = props => {
     )
 
     return (
-        <Grid style={{margin: 'auto', width: '98%'}}>
+        <Grid style={{margin: 'auto', width: '98%'}} className="hoverable">
             {isMobile?
                 <Paper style={{marginBottom: '0.9em'}}>
                     <Grid style={{margin: 0, width: '100%', padding: '0.6em'}}>

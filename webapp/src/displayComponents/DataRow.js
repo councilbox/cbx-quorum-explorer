@@ -1,8 +1,8 @@
 import React from 'react';
 import DataLink from '../displayComponents/DataLink';
-import Grid from '../displayComponents/Grid';
-import GridItem from '../displayComponents/GridItem';
-import { overflowText } from '../styles/commonStyles';
+import Grid from './Grid';
+import GridItem from './GridItem';
+import LogRow from './LogRow';
 
 const DataRow = props =>  {
     const _renderValue = () => {
@@ -70,6 +70,24 @@ const DataRow = props =>  {
                 </DataLink>
             }
 
+            if(key === 'logs'){
+                if(!value){
+                    return '-';
+                }
+
+                if(Array.isArray(value) && value.length === 0){
+                    return '-';
+                }
+
+                return (
+                    <React.Fragment>
+                        {value.map((log, index) => (
+                            <LogRow key={`log_${index}`} log={log} index={index} />
+                        ))}
+                    </React.Fragment>
+                )
+            }
+
             if (key === 'committedSeals' || key === 'validators'){
                 if(!Array.isArray(value)){
                     let processedValue = value.slice(1);
@@ -90,7 +108,7 @@ const DataRow = props =>  {
     }
 
     return (
-        <Grid style={{margin: '0.3em'}}>
+        <Grid style={{padding: '0.5em'}} className="hoverable">
             <GridItem xs={3} md={2}><strong>{props.valueKey === 'contractAddress'? 'to' : props.valueKey}</strong>: </GridItem>
             <GridItem style={{overflowWrap: "break-word"}} xs={12} md={10}>{_renderValue()}</GridItem>
         </Grid>
