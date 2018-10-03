@@ -1,6 +1,7 @@
 import React from 'react';
 import BlocksTable from "../components/Blocks/BlocksTable";
 import TransactionsTable from "../components/Transactions/TransactionsTable";
+import Footer from '../components/Footer';
 import LoadingSection from '../displayComponents/LoadingSection';
 import { Card } from 'material-ui';
 import { API_BLOCKS_ENDPOINT, API_TRANSACTIONS_ENDPOINT, LIMIT } from '../config';
@@ -116,7 +117,7 @@ class TablePage extends React.Component {
 
         return (
             <div style={{height: '100%', width: '100%', padding: isMobile? 0 : '1.6em', paddingBottom: 0}}>
-                <Card {...(isMobile? { elevation: 0 } : {})} style={{padding: '0', clear: 'both', height: isMobile? '100%' : 'calc(100% - 1.5em)', backgroundColor: isMobile? lightGrey : 'white'}}>
+                <Card {...(isMobile? { elevation: 0 } : {})} style={{padding: '0', marginBottom: '1em', clear: 'both', height: isMobile? '100%' : 'calc(100% - 2.5em)', backgroundColor: isMobile? lightGrey : 'white'}}>
                     <div style={{height: this.props.windowSize === 'xs'? '100%' : '100%', width: '100%', maxWidth: '100%'}}>
                         {this._renderContent()}
                         {this.state.loadingMore &&
@@ -124,6 +125,7 @@ class TablePage extends React.Component {
                         }
                     </div>
                 </Card>
+                <Footer />
             </div>
         )
     }

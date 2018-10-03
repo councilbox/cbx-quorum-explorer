@@ -11,3 +11,12 @@ body, html {
     font-size: 14px;
     overflow-x: hidden;
 }
+
+hr {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.hoverable:hover {
+    background-color: whitesmoke;
+}

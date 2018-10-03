@@ -6,6 +6,7 @@ const GridWrapper = ({
 	alignItems,
 	alignContent,
 	style,
+	className,
 	spacing = 8,
 	justify,
 	onKeyUp
@@ -13,6 +14,7 @@ const GridWrapper = ({
 	<Grid
 		container
 		justify={justify}
+		className={className}
 		alignItems={alignItems}
 		alignContent={alignContent}
 		onKeyUp={onKeyUp}

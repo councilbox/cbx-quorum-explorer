@@ -75,15 +75,24 @@ class Blocks(Resource):
         if from_:
             if order == 'desc':
                 query['number'] = {'$lt': from_}
-            else:
+                order = -1
+            elif order == 'asc':
                 query['number'] = {'$gt': from_}
+                order = 1
+        else:
+            order = -1
 
         collection = self.database.blocks
-        result = collection.find(query, sort=[('number', -1)]).limit(limit)
+        result = collection.find(query, sort=[('number', order)]).limit(limit)
         blocks = []
         for block in result:
             blocks.append({'timestamp': block['timestamp'],
                            'number': block['number'],
                            'hash': block['hash'],
                            'transactions': len(block['transactions'])})
+                           
+        # Reverse list if asc
+        if order == 1:
+            blocks = blocks[::-1]
+
         return get_output(blocks, 'latest blocks'), 200

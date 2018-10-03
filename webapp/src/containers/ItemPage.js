@@ -3,6 +3,7 @@ import Block from "../components/Blocks/Block";
 import Account from "../components/Accounts/Account";
 import Transaction from "../components/Transactions/Transaction";
 import LoadingSection from '../displayComponents/LoadingSection';
+import Footer from '../components/Footer';
 import { API_BLOCK_ENDPOINT, API_ACCOUNT_ENDPOINT, API_TRANSACTION_ENDPOINT } from '../config';
 import Scrollbar from '../displayComponents/Scrollbar';
 import SearchError from '../displayComponents/SearchError';
@@ -78,58 +79,57 @@ class ItemPage extends React.Component {
 
     render() {
         return (
-            <Scrollbar>
-                <div style={{padding: '1em'}}>
-                    {(this.state.loading === false && this.state.data)?
-                        <React.Fragment>
-                            {this.state.hasError?
-                                <SearchError
-                                    query={this.props.match.params.value}
-                                    hashError={true}
-                                />
-                            :
-                                <React.Fragment>
-                                    {this.props.history.location.pathname.includes("block") &&
-                                        <Block
-                                            title={this.state.title}
-                                            data={this.state.data}
-                                            match={this.props.match}
-                                            location={this.props.location}
-                                            history={this.props.history}
-                                            server={this.props.server}
-                                        />
-                                    }
-                                    {this.props.history.location.pathname.includes("account") &&
-                                        <Account
-                                            title={this.state.title}
-                                            data={this.state.data}
-                                            match={this.props.match}
-                                            location={this.props.location}
-                                            history={this.props.history}
-                                            server={this.props.server}
-                                        />
-                                    }
+            <div style={{height: '100%', padding: '1em'}}>
+                {(this.state.loading === false && this.state.data)?
+                    <React.Fragment>
+                        {this.state.hasError?
+                            <SearchError
+                                query={this.props.match.params.value}
+                                hashError={true}
+                            />
+                        :
+                            <React.Fragment>
+                                {this.props.history.location.pathname.includes("block") &&
+                                    <Block
+                                        title={this.state.title}
+                                        data={this.state.data}
+                                        match={this.props.match}
+                                        location={this.props.location}
+                                        history={this.props.history}
+                                        server={this.props.server}
+                                    />
+                                }
+                                {this.props.history.location.pathname.includes("account") &&
+                                    <Account
+                                        title={this.state.title}
+                                        data={this.state.data}
+                                        match={this.props.match}
+                                        location={this.props.location}
+                                        history={this.props.history}
+                                        server={this.props.server}
+                                    />
+                                }
 
-                                    {this.props.history.location.pathname.includes("transaction") &&
-                                        <Transaction
-                                            title={this.state.title}
-                                            data={this.state.data}
-                                            match={this.props.match}
-                                            location={this.props.location}
-                                            history={this.props.history}
-                                            server={this.props.server}
-                                        />
-                                    }
-                                </React.Fragment>
-                            }
-                        </React.Fragment>
-                    :
-                        <div style={{margin: '5em'}}>
-                            <LoadingSection />
-                        </div>
-                    }
-                </div>
-            </Scrollbar>
+                                {this.props.history.location.pathname.includes("transaction") &&
+                                    <Transaction
+                                        title={this.state.title}
+                                        data={this.state.data}
+                                        match={this.props.match}
+                                        location={this.props.location}
+                                        history={this.props.history}
+                                        server={this.props.server}
+                                    />
+                                }
+                            </React.Fragment>
+                        }
+                    </React.Fragment>
+                :
+                    <div style={{margin: '5em'}}>
+                        <LoadingSection />
+                    </div>
+                }
+                <Footer />
+            </div>
         );
     }
 }
