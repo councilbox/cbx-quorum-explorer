@@ -56,4 +56,4 @@ ADD http-api.tar.gz /opt/docker
 EXPOSE 8080
 ENV PATH=/usr/local/go/bin:/root/go/bin:$PATH
 WORKDIR /opt/docker
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8080", "api:app"]
+ENTRYPOINT ["gunicorn", "-w", "8", "--bind", "0.0.0.0:8080", "api:app"]
