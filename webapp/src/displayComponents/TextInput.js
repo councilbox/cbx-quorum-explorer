@@ -64,7 +64,7 @@ const TextInput = ({
 			multiline={multiline}
 			style={{
 				marginTop: 0,
-				width: "100%"
+				width: "100%",
 			}}
 			placeholder={placeholder}
 			InputLabelProps={{

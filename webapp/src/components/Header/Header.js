@@ -1,11 +1,19 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import logo from "../../assets/img/logo.png";
+import cbxLogo from "../../assets/img/logo.png";
+import alatriaLogo from "../../assets/img/alastria-logo.png";
 import smallIcon from '../../assets/img/logo-icono.png';
+import alastriaIcon from '../../assets/img/alastria-icon-color.png';
 import { Paper } from 'material-ui';
 import SearchInput from "../../displayComponents/SearchInput";
 import ServerStatus from '../ServerStatus/ServerStatus';
 import withWindowSize from '../../HOCs/withWindowSize';
+import { darkGrey } from '../../styles/colors';
+
+const version = process.env.REACT_APP_VERSION;
+
+const logo = version === 'alastria'? alatriaLogo : cbxLogo;
+const icon = version === 'alastria'? alastriaIcon : smallIcon;
 
 const Header = props => {
     return (
@@ -13,6 +21,7 @@ const Header = props => {
             style={{
                 width: '100%',
                 height: '3.5em',
+                backgroundColor: version === 'alastria'? darkGrey : 'inherit',
                 borderBottom: '1px solid gainsboro',
                 display: 'flex',
                 alignItems: 'center',
@@ -26,13 +35,13 @@ const Header = props => {
                         style={{
                             height: "1.8em"
                         }}
-                        src={props.windowSize === 'xs'? smallIcon : logo}
+                        src={props.windowSize === 'xs'? icon : logo}
                         alt="Logo"
                     />
                 </Link>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: props.windowSize === 'xs'? '80%' : '35%'}}>
-                <SearchInput history={props.history}/>
+                <SearchInput history={props.history} mode={version === 'alastria'? 'dark' : 'light'} />
             </div>
             <div style={{width: props.windowSize === 'xs'? '15%' : '5%', display: 'flex', justifyContent: 'flex-end'}}>
                 <ServerStatus />

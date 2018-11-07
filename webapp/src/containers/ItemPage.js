@@ -5,7 +5,6 @@ import Transaction from "../components/Transactions/Transaction";
 import LoadingSection from '../displayComponents/LoadingSection';
 import Footer from '../components/Footer';
 import { API_BLOCK_ENDPOINT, API_ACCOUNT_ENDPOINT, API_TRANSACTION_ENDPOINT } from '../config';
-import Scrollbar from '../displayComponents/Scrollbar';
 import SearchError from '../displayComponents/SearchError';
 
 class ItemPage extends React.Component {

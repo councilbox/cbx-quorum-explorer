@@ -1,8 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import whiteIcon from '../../assets/img/imago-councilbox-inverse-xl.png';
 import Grid from '../../displayComponents/Grid';
 import GridItem from '../../displayComponents/GridItem';
+//import icon from '../../assets/img/cbx-explorer.png';
+import smallIcon from '../../assets/img/imago-councilbox-inverse-xl.png';
+import alastriaIcon from '../../assets/img/alastria-icon.png';
+
+const icon = process.env.REACT_APP_VERSION === 'alastria'? alastriaIcon : smallIcon;
 
 const TopLinks = [
     {
@@ -22,7 +26,7 @@ const SideMenu = props => {
 
     const content = <React.Fragment>
         <div style={{borderBottom: '1px solid grey', width: '3.5em', height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.6em'}}>
-            <img src={whiteIcon} alt={'councilbox-icon'} style={{width: props.mobile? '3em' : '2em', height: 'auto'}} />
+            <img src={icon} alt={'councilbox-icon'} style={{width: props.mobile? '3em' : '2.2em', height: 'auto'}} />
         </div>
         {TopLinks.map((link, index) =>
             <TopLink
@@ -61,7 +65,7 @@ export default SideMenu;
 const TopLink = ({ url, style, text, icon }) => (
     <NavLink
         activeStyle={{
-            backgroundColor: '#00acc1',
+            backgroundColor: process.env.REACT_APP_VERSION === 'alastria'? '#00BAA4' : '#00acc1',
             borderRadius: '3px',
             fontWeight: '700',
             color: 'white',

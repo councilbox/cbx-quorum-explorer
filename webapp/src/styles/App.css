@@ -20,3 +20,7 @@ hr {
 .hoverable:hover {
     background-color: whitesmoke;
 }
+
+#whiteFont {
+    color: white;
+}

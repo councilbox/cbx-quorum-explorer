@@ -24,9 +24,24 @@ class SearchWidget extends React.Component {
             <div style={{width: '100%'}}>
                <TextInput
                     fullWidth
+                    {...(this.props.mode === 'dark'? {
+                        id: 'whiteFont'
+                    } : {})}
                     onKeyUp={this.handleEnter}
-                    adornment={<i className="material-icons" onClick={this.pushSearch} style={{cursor: 'pointer'}}>search</i>}
+                    adornment={
+                        <i
+                            className="material-icons"
+                            onClick={this.pushSearch}
+                            style={{cursor: 'pointer'}}
+                            {...(this.props.mode === 'dark'? {
+                                id: 'whiteFont'
+                            } : {})}
+                        >
+                            search
+                        </i>
+                    }
                     value={this.state.searchValue}
+                    style={{ color: 'white'}}
                     onChange={event =>
                         this.setState({
                             searchValue: event.target.value

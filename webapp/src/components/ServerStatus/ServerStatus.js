@@ -42,7 +42,7 @@ class ServerStatus extends React.Component {
             <React.Fragment>
                 {!isMobile &&
                     <Tooltip title={this.state.server}>
-                        <span style={{fontSize: '.7em'}}>STATUS</span>
+                        <span style={{fontSize: '.7em', color: process.env.REACT_APP_VERSION === 'alastria'? 'white' : 'inherit'}}>STATUS</span>
                     </Tooltip>
                 }
                 <Tooltip title={this.state.server}>
