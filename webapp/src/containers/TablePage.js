@@ -54,8 +54,15 @@ class TablePage extends React.Component {
 
     loadMore = async () => {
         let endpoint = API_TRANSACTIONS_ENDPOINT;
+
         if(this.props.location.pathname.includes('blocks')){
             endpoint = API_BLOCKS_ENDPOINT;
+        } else {
+            if (this.props.history.location.pathname.includes("block")) {
+                endpoint = `${endpoint}?block=${this.props.match.params.value}`
+            } else if (this.props.history.location.pathname.includes("account")) {
+                endpoint = `${endpoint}?address=${this.props.match.params.value}`
+            }
         }
         const response = await fetch(`${endpoint}?from=${this.state.data[this.state.data.length - 1].number}&limit=${LIMIT}`);
         const json = await response.json();
