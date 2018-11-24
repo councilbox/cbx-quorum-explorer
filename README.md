@@ -1,6 +1,8 @@
 # councilbox-quorum-explorer
 
-![Screenshot](misc/screenshot.png "Screenshot")
+![CBX's skin screenshot](misc/screenshot.png "CBX's skin screenshot")
+
+![Alastria's skin screenshot](misc/screenshot-alastria.png "Alastria's skin screenshot")
 
 ## Deploy your explorer 🚀
 Requirements:
@@ -15,5 +17,6 @@ You can set the following environment variables in the `env.sh` file before exec
 - `MONGO_DATA_DIR` (directory where the database's files will be stored)
 - `API_PORT` (the host's port assigned to the HTTP API)
 - `EXTERNAL_API_PORT` (the HTTP API's port used on the client side)
+- `WEBAPP_VERSION`(the skin which will be loaded: `alastria`, `cbx`)
 
 The `launch.sh` script will generate a `docker-compose.yaml` file from the template and execute it.
