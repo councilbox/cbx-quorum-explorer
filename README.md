@@ -1,4 +1,4 @@
-# councilbox-quorum-explorer
+# cbx-quorum-explorer
 
 ![CBX's skin screenshot](misc/screenshot.png "CBX's skin screenshot")
 
