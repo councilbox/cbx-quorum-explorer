@@ -20,6 +20,7 @@ const Header = props => {
         <Paper
             style={{
                 width: '100%',
+                borderRadius: '0',
                 height: '3.5em',
                 backgroundColor: version === 'alastria'? darkGrey : 'inherit',
                 borderBottom: '1px solid gainsboro',

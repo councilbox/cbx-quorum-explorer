@@ -1,6 +1,4 @@
-src/assets/img/logo.png
-public/manifest.json
-public/index.html
+package.json
 
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 .idea/

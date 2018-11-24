@@ -32,7 +32,7 @@ class App extends React.Component {
     _renderRoutingLayout = () => (
         <React.Fragment>
             {this.props.orientation === 'landscape' &&
-                <div style={{width: '5em', height: '100%', backgroundColor: darkGrey, borderRight: '1px solid gainsboro'}}>
+                <div style={{width: '5em', height: '100%', backgroundColor: darkGrey}}>
                     <SideMenu />
                 </div>
             }

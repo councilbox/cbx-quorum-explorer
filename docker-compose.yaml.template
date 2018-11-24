@@ -40,7 +40,7 @@ services:
       - mongodb
 
   webapp:
-    image: councilbox/quorum-explorer-webapp
+    image: councilbox/quorum-explorer-webapp:{{WEBAPP_VERSION}}
     ports:
       - {{EXPLORER_PORT}}:80
     environment:
