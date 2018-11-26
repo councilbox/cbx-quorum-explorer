@@ -2,6 +2,9 @@ import React from 'react';
 import { API_STATUS_ENDPOINT } from '../../config';
 import { Tooltip } from 'material-ui';
 import { isMobile } from 'react-device-detect';
+import { versions } from '../../versions';
+
+const version = versions[process.env.REACT_APP_VERSION];
 
 class ServerStatus extends React.Component {
 
@@ -42,7 +45,7 @@ class ServerStatus extends React.Component {
             <React.Fragment>
                 {!isMobile &&
                     <Tooltip title={this.state.server}>
-                        <span style={{fontSize: '.7em', color: process.env.REACT_APP_VERSION === 'alastria'? 'white' : 'inherit'}}>STATUS</span>
+                        <span style={{fontSize: '.7em', color: version.mode === 'dark'? 'white' : 'inherit'}}>STATUS</span>
                     </Tooltip>
                 }
                 <Tooltip title={this.state.server}>

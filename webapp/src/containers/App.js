@@ -26,6 +26,10 @@ import SideMenu from '../components/Menus/SideMenu';
 import ThemeProvider from '../displayComponents/ThemeProvider';
 import { lightGrey, darkGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
+import { versions } from '../versions';
+
+const version = versions[process.env.REACT_APP_VERSION];
+document.title = version.title;
 
 class App extends React.Component {
 
