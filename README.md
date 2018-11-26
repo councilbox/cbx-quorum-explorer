@@ -19,4 +19,6 @@ You can set the following environment variables in the `env.sh` file before exec
 - `EXTERNAL_API_PORT` (the HTTP API's port used on the client side)
 - `WEBAPP_VERSION`(the skin which will be loaded: `alastria`, `cbx`)
 
+If the consensus algorithm is IBFT, the `extraData` field can be decoded setting the `EXTRA_DATA_FORMAT` variable to `ibft` in the `docker-compose.yaml.template` file for the `http-api` container.
+
 The `launch.sh` script will generate a `docker-compose.yaml` file from the template and execute it.
