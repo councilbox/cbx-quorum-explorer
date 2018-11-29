@@ -1,9 +1,5 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-//import cbxLogo from "../../assets/img/logo.png";
-//import alatriaLogo from "../../assets/img/alastria-logo.png";
-//import smallIcon from '../../assets/img/logo-icono.png';
-//import alastriaIcon from '../../assets/img/alastria-icon-color.png';
 import { Paper } from 'material-ui';
 import SearchInput from "../../displayComponents/SearchInput";
 import ServerStatus from '../ServerStatus/ServerStatus';

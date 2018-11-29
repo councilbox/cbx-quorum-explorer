@@ -2,11 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Grid from '../../displayComponents/Grid';
 import GridItem from '../../displayComponents/GridItem';
-//import icon from '../../assets/img/cbx-explorer.png';
-import smallIcon from '../../assets/img/imago-councilbox-inverse-xl.png';
-import alastriaIcon from '../../assets/img/alastria-icon.png';
-
-const icon = process.env.REACT_APP_VERSION === 'alastria'? alastriaIcon : smallIcon;
+import { versions } from '../../versions';
+const version = versions[process.env.REACT_APP_VERSION];
 
 const TopLinks = [
     {
@@ -26,7 +23,7 @@ const SideMenu = props => {
 
     const content = <React.Fragment>
         <div style={{borderBottom: '1px solid grey', width: '3.5em', height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.6em'}}>
-            <img src={icon} alt={'councilbox-icon'} style={{width: props.mobile? '3em' : '2.2em', height: 'auto'}} />
+            <img src={version.icon} alt={'icon'} style={{width: props.mobile? '3em' : '2.2em', height: 'auto'}} />
         </div>
         {TopLinks.map((link, index) =>
             <TopLink
