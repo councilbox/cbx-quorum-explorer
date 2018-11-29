@@ -28,7 +28,7 @@ const Header = props => {
                         style={{
                             height: "1.8em"
                         }}
-                        src={props.windowSize === 'xs'? version.icon : version.logo}
+                        src={props.windowSize === 'xs'? version.logoAlt : version.logo}
                         alt="Logo"
                     />
                 </Link>
