@@ -156,6 +156,11 @@ class Filler:
 
         if not tx_receipt_dict['contractAddress']:
             tx_receipt_dict.pop('contractAddress')
+        else:
+            tx_receipt_dict.pop('to')
+            tx_receipt_dict['contractAddress'] = \
+                tx_receipt_dict['contractAddress'].lower()
+
         tx_dict.update(tx_receipt_dict)
 
         tx_dict['nonce'] = Int64(tx_dict['nonce'])

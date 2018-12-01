@@ -44,15 +44,15 @@ def clean_transaction(transaction):
 
 def get_clean_transaction_row(transaction):
     transaction['from'] = Web3.toChecksumAddress(transaction['from'])
+    result_transaction = { 'number': str(transaction['_id']),
+                           'timestamp': transaction['timestamp'],
+                           'hash': transaction['hash'],
+                           'from': transaction['from'],
+                           'value': transaction['value'],
+                           'v': transaction['v'] }
     if 'to' in transaction and transaction['to']:
-        transaction['to'] = Web3.toChecksumAddress(transaction['to'])
-    return { 'number': str(transaction['_id']),
-             'timestamp': transaction['timestamp'],
-             'hash': transaction['hash'],
-             'from': transaction['from'],
-             'to': transaction['to'],
-             'value': transaction['value'],
-             'v': transaction['v'] }
+        result_transaction['to'] = Web3.toChecksumAddress(transaction['to'])
+    return result_transaction
 
 def clean_account(account):
     account.pop('_id')
