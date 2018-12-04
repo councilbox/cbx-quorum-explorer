@@ -41,6 +41,9 @@ def clean_transaction(transaction):
     transaction['from'] = Web3.toChecksumAddress(transaction['from'])
     if 'to' in transaction and transaction['to']:
         transaction['to'] = Web3.toChecksumAddress(transaction['to'])
+    if 'contractAddress' in transaction and transaction['contractAddress']:
+        transaction['contractAddress'] = \
+            Web3.toChecksumAddress(transaction['contractAddress'])
 
 def get_clean_transaction_row(transaction):
     transaction['from'] = Web3.toChecksumAddress(transaction['from'])
@@ -52,6 +55,9 @@ def get_clean_transaction_row(transaction):
                            'v': transaction['v'] }
     if 'to' in transaction and transaction['to']:
         result_transaction['to'] = Web3.toChecksumAddress(transaction['to'])
+        return result_transaction
+    result_transaction['to'] = \
+        Web3.toChecksumAddress(transaction['contractAddress'])
     return result_transaction
 
 def clean_account(account):
