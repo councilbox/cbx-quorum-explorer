@@ -42,7 +42,7 @@ services:
       - mongodb
 
   webapp:
-    image: councilbox/quorum-explorer-webapp:cbx-alastria-arrakis
+    image: councilbox/quorum-explorer-webapp:alastria-telsius
     ports:
       - {{EXPLORER_PORT}}:80
     environment:
@@ -50,7 +50,7 @@ services:
     logging: *default-logging
 
   webapp_2:
-    image: councilbox/quorum-explorer-webapp:alastria-arrakis
+    image: councilbox/quorum-explorer-webapp:alastria-telsius
     ports:
       - {{EXPLORER_PORT_2}}:80
     environment:

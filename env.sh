@@ -1,9 +1,10 @@
-QUORUM_HOST=145.239.197.140
+#QUORUM_HOST=validator0.telsius.alastria.io
+QUORUM_HOST=18.203.183.82
 ENABLE_SSL=true
 EXPLORER_PORT=10081
 EXPLORER_PORT_2=10083
-API_DOMAIN=api.arrakis.alastria.councilbox.com
+API_DOMAIN=api.telsius.alastria.councilbox.com
 MONGO_DATA_DIR=/var/explorer-mongodb
 API_PORT=18081
 EXTERNAL_API_PORT=443
-WEBAPP_VERSION=alastria-arrakis
+WEBAPP_VERSION=alastria-telsius
