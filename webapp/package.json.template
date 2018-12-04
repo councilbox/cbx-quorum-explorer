@@ -1,5 +1,5 @@
 {
-  "name": "alastria-cbx-explorer",
+  "name": "cbx-quorum-explorer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
