@@ -1,6 +1,6 @@
 //export const API_URL =
 export const API_URL = process.env.REACT_APP_MODE !== "prod"
-? "https://api.alastria-explorer.councilbox.com.brunneis.com"
+? "https://api.arrakis.alastria.councilbox.com"
 : '{{API_URL}}';;
 export const API_BLOCK_ENDPOINT = `${API_URL}/api/block?value=`;
 export const API_BLOCKS_ENDPOINT = `${API_URL}/api/blocks`;

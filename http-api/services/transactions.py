@@ -44,6 +44,13 @@ class Transaction(Resource):
         transaction = self.database.transactions.find_one({'hash': value})
         if transaction:
             clean_transaction(transaction)
+
+            # Retrieve the timestamp of block it belongs to
+            block_hash = transaction['blockHash']
+            block = self.database.blocks.find_one({'hash': block_hash})
+            block_timestamp = block['timestamp']
+            transaction['timestamp'] = block_timestamp
+
             return get_output(transaction, 'transaction'), 200
         return {}, 404
 
