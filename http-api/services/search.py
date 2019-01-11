@@ -22,9 +22,9 @@ from flask_restful import Resource
 import logging
 from pymongo import MongoClient
 from services.utils import (
-    clean_block,
-    clean_transaction,
-    clean_account,
+    get_clean_block,
+    get_clean_transaction,
+    get_clean_account,
     get_output,
 )
 
@@ -48,13 +48,13 @@ class Search(Resource):
             # Check if it is a transaction
             transaction = self.database.transactions.find_one({'hash': value})
             if transaction:
-                clean_transaction(transaction)
+                transaction = get_clean_transaction(transaction)
                 return get_output(transaction, 'transaction'), 200
 
             # Check if it is a block
             block = self.database.blocks.find_one({'hash': value})
             if block:
-                clean_block(block)
+                block = get_clean_block(block)
                 return get_output(block, 'block'), 200
 
             return {}, 404
@@ -65,7 +65,7 @@ class Search(Resource):
             value = value.lower()
             account = self.database.accounts.find_one({'address': value})
             if account:
-                clean_account(account)
+                account = get_clean_account(account)
                 return get_output(account, 'account'), 200
             return {}, 404
 
@@ -76,6 +76,6 @@ class Search(Resource):
             return {}, 400
         block = self.database.blocks.find_one({'number': value})
         if block:
-            clean_block(block)
+            block = get_clean_block(block)
             return get_output(block, 'block'), 200
         return {}, 404

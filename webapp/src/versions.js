@@ -1,7 +1,7 @@
 import { darkGrey } from './styles/colors';
 
 export const versions = {
-    cbx: {
+    "cbx": {
         headerColor: 'white',
         mode: 'light',
         icon: '/img/cbx-logo-icon.png',

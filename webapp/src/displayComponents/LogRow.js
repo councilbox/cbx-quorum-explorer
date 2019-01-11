@@ -30,7 +30,7 @@ class LogRow extends React.Component {
                             {`${key}:`}
                         </GridItem>
                         <GridItem xs={12} md={10} lg={10}>
-                            {key === 'topics'?
+                            {key === 'topics' || key === 'from' ?
                                 this._renderTopics(log[key])
                             :
                                 log[key].toString()

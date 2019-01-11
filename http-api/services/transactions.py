@@ -23,7 +23,7 @@ import logging
 from pymongo import MongoClient
 from bson import ObjectId
 from services.utils import (
-    clean_transaction,
+    get_clean_transaction,
     get_clean_transaction_row,
     get_output,
 )
@@ -43,13 +43,12 @@ class Transaction(Resource):
 
         transaction = self.database.transactions.find_one({'hash': value})
         if transaction:
-            clean_transaction(transaction)
+            transaction = get_clean_transaction(transaction)
 
             # Retrieve the timestamp of block it belongs to
-            block_hash = transaction['blockHash']
-            block = self.database.blocks.find_one({'hash': block_hash})
+            block = self.database.blocks.find_one({'number': transaction['blockNumber']})
             block_timestamp = block['timestamp']
-            transaction['timestamp'] = block_timestamp
+            transaction = {'timestamp': block_timestamp, **transaction}
 
             return get_output(transaction, 'transaction'), 200
         return {}, 404
