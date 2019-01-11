@@ -87,7 +87,7 @@ class DataRow extends React.Component {
                     </DataLink>
                 }
 
-                if(key === 'logs'){
+                if(key === 'logs' || key === 'cbx_data'){
                     if(!value){
                         return '-';
                     }

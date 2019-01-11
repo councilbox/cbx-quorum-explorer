@@ -23,7 +23,7 @@ import logging
 from pymongo import MongoClient
 from bson import ObjectId
 from services.utils import (
-    clean_account,
+    get_clean_account,
     get_output,
 )
 
@@ -45,7 +45,7 @@ class Account(Resource):
         if not account:
             return {}, 404
 
-        clean_account(account)
+        account = get_clean_account(account)
         return get_output(account, 'account'), 200
 
 class Accounts(Resource):

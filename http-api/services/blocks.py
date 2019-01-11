@@ -22,7 +22,7 @@ from flask_restful import Resource
 import logging
 from pymongo import MongoClient
 from services.utils import (
-    clean_block,
+    get_clean_block,
     get_output,
 )
 from os import environ
@@ -50,7 +50,7 @@ class Block(Resource):
 
         block = self.database.blocks.find_one({field: value})
         if block:
-            clean_block(block, self.extra_data_format)
+            block = get_clean_block(block, self.extra_data_format)
             return get_output(block, 'block'), 200
         return {}, 404
 

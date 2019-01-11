@@ -19,9 +19,11 @@
 
 from web3 import Web3
 import subprocess
+import logging
 
 
-def clean_block(block, extra_data_format=None):
+def get_clean_block(block, extra_data_format=None):
+    block = dict(block)
     block.pop('_id')
     block['transactions'] = len(block['transactions'])
     extraData = decode_extra_data(block['extraData'])
@@ -35,8 +37,10 @@ def clean_block(block, extra_data_format=None):
         # Special case for the genesis block
         if 'committed_seals' in extraData:
             block['committedSeals'] = extraData['committed_seals']
+    return block
 
-def clean_transaction(transaction):
+def get_clean_transaction(transaction):
+    transaction = dict(transaction)
     transaction.pop('_id')
     transaction['from'] = Web3.toChecksumAddress(transaction['from'])
     if 'to' in transaction and transaction['to']:
@@ -45,7 +49,32 @@ def clean_transaction(transaction):
         transaction['contractAddress'] = \
             Web3.toChecksumAddress(transaction['contractAddress'])
 
+    # Special case
+    function_selector = transaction['input'][2:10]
+    if function_selector == '4e5c851d':
+        version = int(transaction['input'][10:74])
+        evhash = transaction['input'][74:138]
+        nodecode = int(transaction['input'][138:202])
+        cthash = transaction['input'][266:330]
+        sighash = transaction['input'][330:394]
+        no_items = int(transaction['input'][394:458])
+        from_ = []
+        index = 458
+        for _ in range(no_items):
+            from_.append(transaction['input'][index:index+64])
+            index += 64
+        transaction = {'cbx_data': [{'version': version,
+                                     'evhash': evhash,
+                                     'nodecode': nodecode,
+                                     'from': from_,
+                                     'cthash': cthash,
+                                     'sighash': sighash}],
+                       **transaction}
+                       
+    return transaction
+
 def get_clean_transaction_row(transaction):
+    transaction = dict(transaction)
     transaction['from'] = Web3.toChecksumAddress(transaction['from'])
     result_transaction = { 'number': str(transaction['_id']),
                            'timestamp': transaction['timestamp'],
@@ -60,9 +89,11 @@ def get_clean_transaction_row(transaction):
         Web3.toChecksumAddress(transaction['contractAddress'])
     return result_transaction
 
-def clean_account(account):
+def get_clean_account(account):
+    account = dict(account)
     account.pop('_id')
     account['address'] = Web3.toChecksumAddress(account['address'])
+    return account
 
 def get_output(items=None, title=None):
     output = {'type': title,
