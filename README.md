@@ -17,7 +17,7 @@ You can set the following environment variables in the `env.sh` file before exec
 - `MONGO_DATA_DIR` (directory where the database's files will be stored)
 - `API_PORT` (the host's port assigned to the HTTP API)
 - `EXTERNAL_API_PORT` (the HTTP API's port used on the client side)
-- `WEBAPP_VERSION`(the skin which will be loaded: `alastria`, `cbx`)
+- `WEBAPP_VERSION` (the skin which will be loaded: `cbx`, `cbx-alastria-arrakis`, `cbx-alastria-telsius`, `alastria-arrakis`, `alastria-telsius` or `alastria-mainnet`)
 
 If the consensus algorithm is IBFT, the `extraData` field can be decoded setting the `EXTRA_DATA_FORMAT` variable to `ibft` in the `docker-compose.yaml.template` file for the `http-api` container.
 
