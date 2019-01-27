@@ -27,7 +27,7 @@ services:
     image: councilbox/quorum-explorer-syncer
     logging: *default-logging
     environment:
-      - QUORUM_ENDPOINT={{QUORUM_ENDPOINT}}
+      - QUORUM_ENDPOINTS={{QUORUM_ENDPOINTS}}
     depends_on:
       - mongodb
 
@@ -36,7 +36,7 @@ services:
     ports:
       - {{API_PORT}}:8080
     environment:
-      - QUORUM_ENDPOINT={{QUORUM_ENDPOINT}}
+      - QUORUM_ENDPOINTS={{QUORUM_ENDPOINTS}}
       - EXTRA_DATA_FORMAT=ibft
     logging: *default-logging
     depends_on:

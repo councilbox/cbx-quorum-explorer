@@ -22,12 +22,15 @@ from flask_restful import Resource
 import logging
 from pymongo import MongoClient
 from web3 import Web3
+from easyweb3 import EasyWeb3
+import signal
 
 
 class Health(Resource):
     def __init__(self, conf):
         logging.getLogger().setLevel(logging.INFO)
         self.conf = conf
+        self.web3 = None
 
     def get_mongo_status(self):
         try:
@@ -39,10 +42,19 @@ class Health(Resource):
         return 'UP'
 
     def get_quorum_status(self):
-        w3 = Web3(Web3.HTTPProvider(self.conf.quorum['endpoint']))
-        if w3.isConnected():
-            return 'UP', w3.version.node
-        return 'DOWN', '/Disconnected/'
+        if not self.web3:
+            self.web3 = EasyWeb3(http_providers=self.conf.quorum['endpoints'],
+                                proof_of_authority=True)
+        try:
+            signal.signal(signal.SIGALRM, lambda: TimeoutError())
+            signal.alarm(2)
+            if not self.web3.w3.isConnected():
+                raise ConnectionError
+        except Exception:
+            return 'DOWN', '/Disconnected/'
+        finally:
+            signal.alarm(0)
+        return 'UP', self.web3.w3.version.node
 
     def get(self):
         quorum_status = self.get_quorum_status()

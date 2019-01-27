@@ -35,6 +35,6 @@ mongo = _load_conf('conf/mongo.yaml')
 
 quorum = {}
 try:
-    quorum.update({'endpoint': environ['QUORUM_ENDPOINT']})
+    quorum.update({'endpoints': environ['QUORUM_ENDPOINTS']})
 except KeyError:
-    quorum.update({'endpoint': 'http://localhost:22000'})
+    quorum.update({'endpoints': 'http://localhost:22000'})

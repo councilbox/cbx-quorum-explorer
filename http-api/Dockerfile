@@ -49,6 +49,8 @@ RUN \
         flask-restful \
         flask_cors \
         gunicorn \
+        easyweb3 \
+        easysolc \
     && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean
 
