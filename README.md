@@ -10,7 +10,7 @@ Requirements:
 - docker-compose
 
 You can set the following environment variables in the `env.sh` file before executing the `launch.sh` script:
-- `QUORUM_ENDPOINTS`
+- `QUORUM_ENDPOINTS` (e.g., `http://example.org:22000`, `http://example1.org:22000, http://example2.org:22000`)
 - `ENABLE_SSL` (boolean)
 - `EXPLORER_PORT` (the host's port assigned to the webapp)
 - `API_DOMAIN` (public domain through which the HTTP API will be accessible)
