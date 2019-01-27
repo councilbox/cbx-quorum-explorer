@@ -1,6 +1,6 @@
 #!/bin/bash
 source env.sh
-QUORUM_HOST=${QUORUM_HOST:-localhost}
+QUORUM_ENDPOINT=${QUORUM_ENDPOINT:-"http://localhost:22000"}
 ENABLE_SSL=${ENABLE_SSL:-false}
 if $ENABLE_SSL; then SSL=s; fi
 API_DOMAIN=${API_DOMAIN:-localhost}
@@ -10,7 +10,7 @@ API_PORT=${API_PORT:-8080}
 EXTERNAL_API_PORT=${EXTERNAL_API_PORT:-8080}
 WEBAPP_VERSION=${WEBAPP_VERSION:-cbx}
 
-sed 's@{{QUORUM_HOST}}@'$QUORUM_HOST'@' docker-compose.yaml.template > docker-compose.yaml
+sed 's@{{QUORUM_ENDPOINT}}@'$QUORUM_ENDPOINT'@' docker-compose.yaml.template > docker-compose.yaml
 sed 's@{{MONGO_DATA_DIR}}@'$MONGO_DATA_DIR'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{EXPLORER_PORT}}@'$EXPLORER_PORT'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{API_DOMAIN}}@'$API_DOMAIN'@' docker-compose.yaml > aux && mv aux docker-compose.yaml

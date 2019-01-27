@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,19 +34,22 @@ class Health(Resource):
             mongo_client = MongoClient(self.conf.mongo['address'],
                                        self.conf.mongo['port'])
             mongo_client.server_info()
-        except Exception as e:
+        except Exception:
             return 'DOWN'
         return 'UP'
 
     def get_quorum_status(self):
-        for node in self.conf.quorum['nodes']:
-            w3 = Web3(Web3.HTTPProvider(f'http://{node}'))
-            if w3.isConnected():
-                return 'UP', w3.version.node
-        return 'DOWN'
+        w3 = Web3(Web3.HTTPProvider(self.conf.quorum['endpoint']))
+        if w3.isConnected():
+            return 'UP', w3.version.node
+        return 'DOWN', '/Disconnected/'
 
     def get(self):
         quorum_status = self.get_quorum_status()
-        return {'status': 'UP',
-                'node': {'status': quorum_status[0],
-                         'version': quorum_status[1]}}, 200
+        return {
+            'status': quorum_status[0],
+            'node': {
+                'status': quorum_status[0],
+                'version': quorum_status[1]
+            }
+        }, 200

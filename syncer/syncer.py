@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,21 +41,15 @@ class Filler:
         self.status = quorum.status
 
     def connect_quorum(self):
-        self.w3 = Web3(Web3.HTTPProvider(
-            f'http://{self.QUORUM_HOST}:{self.QUORUM_PORT}'))
+        self.w3 = Web3(Web3.HTTPProvider(self.QUORUM_ENDPOINT))
         # PoA compatibility middleware
         self.w3.middleware_stack.inject(geth_poa_middleware, layer=0)
 
-    def __init__(self):
-        # Environment variables
+    def _load_conf(self):
         try:
-            self.QUORUM_HOST = environ['QUORUM_HOST']
+            self.QUORUM_ENDPOINT = environ['QUORUM_ENDPOINT']
         except KeyError:
-            self.QUORUM_HOST = "localhost"
-        try:
-            self.QUORUM_PORT = environ['QUORUM_PORT']
-        except KeyError:
-            self.QUORUM_PORT = 22000
+            self.QUORUM_ENDPOINT = "http://localhost:22000"
         try:
             self.MONGO_HOST = environ['MONGO_HOST']
         except KeyError:
@@ -64,6 +58,10 @@ class Filler:
             self.MONGO_PORT = environ['MONGO_PORT']
         except KeyError:
             self.MONGO_PORT = 27017
+
+    def __init__(self):
+        # Environment variables
+        self._load_conf()
 
         # Create connections
         self.connect_quorum()

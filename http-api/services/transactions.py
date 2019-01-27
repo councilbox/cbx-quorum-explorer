@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,12 +22,9 @@ from flask_restful import Resource
 import logging
 from pymongo import MongoClient
 from bson import ObjectId
-from services.utils import (
-    get_clean_transaction,
-    get_clean_transaction_row,
-    get_output,
-)
-from web3 import Web3
+from services.utils import (get_clean_transaction,
+                            get_clean_transaction_row,
+                            get_output)
 
 
 class Transaction(Resource):
