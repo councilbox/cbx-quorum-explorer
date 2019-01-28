@@ -16,10 +16,10 @@
     "react-fontawesome": "^1.6.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13",
+    "react-scripts": "2.1.3",
     "sockjs-client": "^1.1.4",
     "stompjs": "^2.3.3",
-    "web3": "^1.0.0-beta.36"
+    "web3": "^1.0.0-beta.39"
   },
   "scripts": {
     "start": "REACT_APP_VERSION={{WEBAPP_VERSION}} react-scripts start",
