@@ -3,9 +3,10 @@ import DataLink from '../displayComponents/DataLink';
 import Grid from './Grid';
 import GridItem from './GridItem';
 import LogRow from './LogRow';
-import { isEdge } from 'react-device-detect';
 import web3 from 'web3';
 import { Tooltip } from 'material-ui';
+import { Link } from 'react-router-dom';
+
 
 class DataRow extends React.Component {
 
@@ -60,6 +61,13 @@ class DataRow extends React.Component {
                     </DataLink>
                 }
                 if(key === "to" || key === "from" || key === "address") {
+                    if (key === "from" && this.props.value === '0xfbca403a012ab7928edCbeEad14AA5c98750459b') {
+                        return <React.Fragment>
+                            <Link to={`/account/` + this.props.value}>
+                                <img alt="Councilbox logo" style={{height:"1em"}} src="/img/councilbox-logo.png"></img>
+                            </Link>
+                        </React.Fragment>
+                    } 
                     return <DataLink
                         history={this.props.history}
                         type='account' >
@@ -124,9 +132,9 @@ class DataRow extends React.Component {
                         let processedValue = value.slice(1);
                         processedValue = processedValue.slice(0, -1);
                         const items = processedValue.split(',');
-                        return items.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/\'/g, '')}`}</div>);
+                        return items.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/'/g, '')}`}</div>);
                     }
-                    return value.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/\'/g, '')}`}</div>);
+                    return value.map((item, index) => <div key={`${key}_${index}`} style={{marginTop: '0.3em'}}>{`${item.replace(/'/g, '')}`}</div>);
                 }
 
                 if(Array.isArray(value)){

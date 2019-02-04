@@ -49,8 +49,15 @@ def get_clean_transaction(transaction):
         transaction['contractAddress'] = \
             Web3.toChecksumAddress(transaction['contractAddress'])
 
-    # Special case
+    # CBX origin
+    cbx_accounts = ['0xfbca403a012ab7928edCbeEad14AA5c98750459b']
+    if transaction['from'] in cbx_accounts :
+        cbx_origin = '✅'
+    else:
+        cbx_origin = '❌'
+
     function_selector = transaction['input'][2:10]
+    # Special case #1
     if function_selector == '4e5c851d':
         version = int(transaction['input'][10:74])
         evhash = transaction['input'][74:138]
@@ -68,7 +75,20 @@ def get_clean_transaction(transaction):
                                      'nodecode': nodecode,
                                      'from': from_,
                                      'cthash': cthash,
-                                     'sighash': sighash}],
+                                     'sighash': sighash,
+                                     'cbx_origin': cbx_origin}],
+                       **transaction}
+
+    # Special case #2
+    elif function_selector == '23c3b146':
+        log = transaction['input'][10:74]
+        evhash = transaction['input'][74:138]
+        message = transaction['input'][266:]
+        decoded_message = bytes.fromhex(message).decode('utf-8').replace('\x00','')
+        transaction = {'cbx_data': [{'evhash': evhash,
+                                     'log': log,
+                                     'message': decoded_message,
+                                     'cbx_origin': cbx_origin}],
                        **transaction}
                        
     return transaction
