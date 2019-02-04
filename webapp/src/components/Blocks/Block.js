@@ -16,7 +16,7 @@ const Block = props => (
                     <h4 style={{ marginTop: '0', textTransform: 'capitalize'}}>{props.title} #{props.data.number}</h4>
                     <h5 style={{ marginBottom: '2em', ...overflowText}}>{props.data.hash}</h5>
                     {Object.keys(props.data).filter(key => key !== "hash" && key !== "number").map(key => (
-                        key == 'timestamp'?
+                        key === 'timestamp'?
                             <React.Fragment key={key}>
                                 <DataRow
                                     valueId={props.match.params.value}

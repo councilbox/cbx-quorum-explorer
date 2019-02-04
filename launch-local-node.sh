@@ -8,13 +8,11 @@ MONGO_DATA_DIR=${MONGO_DATA_DIR:-./database}
 EXPLORER_PORT=${EXPLORER_PORT:-80}
 API_PORT=${API_PORT:-8080}
 EXTERNAL_API_PORT=${EXTERNAL_API_PORT:-8080}
-EXPLORER_PORT_2=${EXPLORER_PORT_2:-80}
 WEBAPP_VERSION=${WEBAPP_VERSION:-cbx}
 
-sed 's@{{QUORUM_ENDPOINTS}}@'$QUORUM_ENDPOINTS'@' docker-compose.yaml.template > docker-compose.yaml
+sed 's@{{QUORUM_ENDPOINTS}}@'$QUORUM_ENDPOINTS'@' docker-compose-local-node.yaml.template > docker-compose.yaml
 sed 's@{{MONGO_DATA_DIR}}@'$MONGO_DATA_DIR'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{EXPLORER_PORT}}@'$EXPLORER_PORT'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
-sed 's@{{EXPLORER_PORT_2}}@'$EXPLORER_PORT_2'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{API_DOMAIN}}@'$API_DOMAIN'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{API_PORT}}@'$API_PORT'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{EXTERNAL_API_PORT}}@'$EXTERNAL_API_PORT'@' docker-compose.yaml > aux && mv aux docker-compose.yaml

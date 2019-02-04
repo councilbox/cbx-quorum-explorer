@@ -1,5 +1,5 @@
 # Quorum Explorer WebApp Container
-# Copyright (C) 2018 Rodrigo Martínez <rodrigo.martinez@councilbox.com>
+# Copyright (C) 2018-2019 Rodrigo Martínez <rodrigo.martinez@councilbox.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

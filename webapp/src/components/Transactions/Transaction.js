@@ -16,7 +16,7 @@ const Transaction = props => (
                     <h4 style={{ marginTop: '0', textTransform: 'capitalize'}}>{props.title}</h4>
                     <h5 style={{ marginBottom: '2em', ...overflowText}}>{props.data.hash}</h5>
                     {Object.keys(props.data).map((key, index) => (
-                        key == 'timestamp'?
+                        key === 'timestamp'?
                             <React.Fragment key={`${key}_${index}`}>
                                 <DataRow
                                     valueId={props.match.params.value}

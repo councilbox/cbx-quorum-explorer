@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,14 +24,14 @@ from pymongo import MongoClient
 import pymongo.errors
 import logging
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
 import web3.exceptions
 from os import environ
 from bson import Int64
 import time
+from easyweb3 import EasyWeb3
 
 
-class Filler:
+class Syncer:
     def connect_mongo(self):
         self.mongo_client = MongoClient(self.MONGO_HOST, self.MONGO_PORT)
         quorum = self.mongo_client.quorum
@@ -40,22 +40,11 @@ class Filler:
         self.accounts = quorum.accounts
         self.status = quorum.status
 
-    def connect_quorum(self):
-        self.w3 = Web3(Web3.HTTPProvider(
-            f'http://{self.QUORUM_HOST}:{self.QUORUM_PORT}'))
-        # PoA compatibility middleware
-        self.w3.middleware_stack.inject(geth_poa_middleware, layer=0)
-
-    def __init__(self):
-        # Environment variables
+    def _load_conf(self):
         try:
-            self.QUORUM_HOST = environ['QUORUM_HOST']
+            self.QUORUM_ENDPOINTS = environ['QUORUM_ENDPOINTS']
         except KeyError:
-            self.QUORUM_HOST = "localhost"
-        try:
-            self.QUORUM_PORT = environ['QUORUM_PORT']
-        except KeyError:
-            self.QUORUM_PORT = 22000
+            self.QUORUM_ENDPOINTS = "http://localhost:22000"
         try:
             self.MONGO_HOST = environ['MONGO_HOST']
         except KeyError:
@@ -65,8 +54,13 @@ class Filler:
         except KeyError:
             self.MONGO_PORT = 27017
 
+    def __init__(self):
+        # Environment variables
+        self._load_conf()
+
         # Create connections
-        self.connect_quorum()
+        self.web3 = EasyWeb3(http_providers=self.QUORUM_ENDPOINTS,
+                            proof_of_authority=True)
         self.connect_mongo()
 
         # Create indexes
@@ -103,15 +97,15 @@ class Filler:
             if type(value) == list and len(value) and type(value[0]) == HexBytes:
                 value = [tx.hex() for tx in value]
             if key == 'logs':
-                value = [Filler.get_serializable_dict(item) for item in value]
+                value = [Syncer.get_serializable_dict(item) for item in value]
             if type(value) == HexBytes:
                 value = value.hex()
             serializable_dict[key] = value
         return serializable_dict
 
     def get_block_data(self):
-        block_dict = Filler.get_serializable_dict(
-            self.w3.eth.getBlock(self.current_status['block_height']))
+        block_dict = Syncer.get_serializable_dict(
+            self.web3.eth.getBlock(self.current_status['block_height']))
 
         block_dict['difficulty'] = Int64(block_dict['difficulty'])
         # Overflow with gasLimit
@@ -127,8 +121,8 @@ class Filler:
         return block_dict
 
     def get_tx_data(self, tx_hash):
-        tx_dict = Filler.get_serializable_dict(
-            self.w3.eth.getTransaction(tx_hash))
+        tx_dict = Syncer.get_serializable_dict(
+            self.web3.eth.getTransaction(tx_hash))
         tx_dict = {key: tx_dict[key] for key in \
             ['hash',
              'nonce',
@@ -140,8 +134,8 @@ class Filler:
              's',
              'v']}
 
-        tx_receipt_dict = Filler.get_serializable_dict(
-            self.w3.eth.getTransactionReceipt(tx_hash))
+        tx_receipt_dict = Syncer.get_serializable_dict(
+            self.web3.eth.getTransactionReceipt(tx_hash))
         tx_receipt_dict = {key: tx_receipt_dict[key] for key in \
             ['blockHash',
              'blockNumber',
@@ -183,9 +177,9 @@ class Filler:
             self.blocks.update_one({'number': block['number']},
                                    {'$set': block},
                                    upsert=True)
-        except Exception as e:
+        except Exception:
             logging.error('Error writing a block...\n' + str(block))
-            logging.exception("message")
+            logging.exception('')
 
         for tx_hash in block['transactions']:
             self.insert_tx(tx_hash)
@@ -212,7 +206,7 @@ class Filler:
 
         self.update_remote_current_status()
 
-        balance = self.w3.eth.getBalance(Web3.toChecksumAddress(address))
+        balance = self.web3.eth.getBalance(Web3.toChecksumAddress(address))
         balance = str(balance)
         transactions += 1
         account = {'address': address,
@@ -240,9 +234,9 @@ class Filler:
                 self.update_account(tx['to'])
             self.update_account(tx['from'])
 
-        except Exception as e:
+        except Exception:
             logging.error('Error writing a tx...\n' + str(tx))
-            logging.exception("message")
+            logging.exception('')
 
     def update_remote_current_status(self):
         self.status.update_one({}, {'$set': self.current_status}, upsert=True)
@@ -251,54 +245,54 @@ class Filler:
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
 
-    filler = Filler()
-    filler.current_status = filler.status.find_one({})
-    if not filler.current_status:
-        filler.current_status = {
+    syncer = Syncer()
+    syncer.current_status = syncer.status.find_one({})
+    if not syncer.current_status:
+        syncer.current_status = {
             'block_height': 0,
             'completed': False,
             'previous_accounts_state': []}
-        filler.status.insert_one(filler.current_status)
-        filler.update_remote_current_status()
+        syncer.status.insert_one(syncer.current_status)
+        syncer.update_remote_current_status()
 
-    if not filler.current_status['completed'] and filler.current_status['block_height'] > 0:
+    if not syncer.current_status['completed'] and syncer.current_status['block_height'] > 0:
         logging.info("Rollback...")
         # Rollback to the previous account states
-        for account in filler.current_status['previous_accounts_state']:
-            balance = filler.w3.eth.getBalance(Web3.toChecksumAddress(account['address']))
+        for account in syncer.current_status['previous_accounts_state']:
+            balance = syncer.web3.eth.getBalance(Web3.toChecksumAddress(account['address']))
             balance = str(balance)
             account['balance'] = balance
-            filler.accounts.update_one({'address': account['address']},
+            syncer.accounts.update_one({'address': account['address']},
                                        {'$set': account},
                                        upsert=True)
-        filler.current_status['previous_accounts_state'] = []
-        filler.update_remote_current_status()
+        syncer.current_status['previous_accounts_state'] = []
+        syncer.update_remote_current_status()
 
     running = True
     while(running):
         try:
-            logging.info(f"Requesting block {filler.current_status['block_height']}...")
-            if not filler.insert_block():
+            logging.info(f"Requesting block {syncer.current_status['block_height']}...")
+            if not syncer.insert_block():
                 time.sleep(1)
                 continue
 
             # Mark block as completed
-            filler.current_status['completed'] = True
-            filler.current_status['previous_accounts_state'] = []
-            filler.update_remote_current_status()
+            syncer.current_status['completed'] = True
+            syncer.current_status['previous_accounts_state'] = []
+            syncer.update_remote_current_status()
 
             # Mark the next block as not completed
-            filler.current_status['block_height'] += 1
-            filler.current_status['completed'] = False
-            filler.update_remote_current_status()
+            syncer.current_status['block_height'] += 1
+            syncer.current_status['completed'] = False
+            syncer.update_remote_current_status()
 
         except Exception as e:
-            logging.exception("message")
-            time.sleep(1)
+            logging.exception('')
+            time.sleep(2)
 
             # Mongo error
             if e.__class__.__name__ in dir(pymongo.errors):
-                filler.connect_mongo()
+                syncer.connect_mongo()
             # Web3 error
             elif e.__class__.__name__ in dir(web3.exceptions):
-                filler.connect_quorum()
+                syncer.web3.set_next_http_provider()

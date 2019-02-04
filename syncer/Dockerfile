@@ -1,5 +1,5 @@
 # Councilbox Quorum Explorer SYNC DAEMON
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@ MAINTAINER "Rodrigo Martínez" <rodrigo.martinez@councilbox.com>
 ################################################
 
 FROM brunneis/web3py
-RUN pip install pymongo
+RUN \
+    pip install \
+        pymongo \
+        easyweb3 \
+        easysolc
 COPY syncer.py /usr/local/bin/syncer.py
 ENTRYPOINT ["syncer.py"]

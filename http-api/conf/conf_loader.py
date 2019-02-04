@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import yaml
+from os import environ
 
 
 def _load_conf(filename):
@@ -31,4 +32,9 @@ def _load_conf(filename):
 
 api = _load_conf('conf/api.yaml')
 mongo = _load_conf('conf/mongo.yaml')
-quorum = _load_conf('conf/quorum.yaml')
+
+quorum = {}
+try:
+    quorum.update({'endpoints': environ['QUORUM_ENDPOINTS']})
+except KeyError:
+    quorum.update({'endpoints': 'http://localhost:22000'})

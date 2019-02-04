@@ -1,5 +1,5 @@
 # Councilbox Quorum Explorer HTTP API
-# Copyright (C) 2018 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
+# Copyright (C) 2018-2019 Rodrigo Martínez Castaño, Councilbox Technology, S.L.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -49,6 +49,8 @@ RUN \
         flask-restful \
         flask_cors \
         gunicorn \
+        easyweb3 \
+        easysolc \
     && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean
 
