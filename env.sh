@@ -1,3 +1,5 @@
+QUORUM_ENDPOINTS=http://validator0.telsius.alastria.io:22000
+#QUORUM_ENDPOINTS=http://18.203.183.82:22000
 WEBAPP_VERSION=alastria-telsius
 EXTERNAL_API_PORT=443
 API_PORT=18081
@@ -6,5 +8,3 @@ API_DOMAIN=api.telsius.alastria.councilbox.com
 EXPLORER_PORT=10081
 EXPLORER_PORT_2=10083
 ENABLE_SSL=true
-QUORUM_HOST=18.203.183.82
-#QUORUM_HOST=validator0.telsius.alastria.io
