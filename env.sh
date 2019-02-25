@@ -1,5 +1,5 @@
-QUORUM_ENDPOINTS=http://validator0.telsius.alastria.io:22000
-#QUORUM_ENDPOINTS=http://18.203.183.82:22000
+#QUORUM_ENDPOINTS=http://validator0.telsius.alastria.io:22000
+QUORUM_ENDPOINTS=http://65.52.226.126:22000,http://213.27.216.170:22000,http://154.62.228.6:22000
 WEBAPP_VERSION=alastria-telsius
 EXTERNAL_API_PORT=443
 API_PORT=18081
