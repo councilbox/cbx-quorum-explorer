@@ -20,4 +20,5 @@ sed 's@{{API_PORT}}@'$API_PORT'@' docker-compose.yaml > aux && mv aux docker-com
 sed 's@{{EXTERNAL_API_PORT}}@'$EXTERNAL_API_PORT'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{SSL}}@'$SSL'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
 sed 's@{{WEBAPP_VERSION}}@'$WEBAPP_VERSION'@' docker-compose.yaml > aux && mv aux docker-compose.yaml
-docker-compose up -d
+
+docker-compose --compatibility up -d
