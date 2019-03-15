@@ -23,8 +23,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100m
+          memory: 200m
     entrypoint: mongod --smallfiles --bind_ip "0.0.0.0"
+    restart: always
     logging: *extended-logging
 
   syncer:
