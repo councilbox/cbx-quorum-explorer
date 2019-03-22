@@ -20,11 +20,7 @@ services:
     image: mongo:3.4.10
     volumes:
       - {{MONGO_DATA_DIR}}:/data/db
-    deploy:
-      resources:
-        limits:
-          memory: 200m
-    entrypoint: mongod --smallfiles --bind_ip "0.0.0.0"
+    entrypoint: mongod --smallfiles --bind_ip "0.0.0.0" --wiredTigerCacheSizeGB 0.2
     restart: always
     logging: *extended-logging
 
