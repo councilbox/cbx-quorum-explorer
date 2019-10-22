@@ -42,7 +42,6 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
-        web3==4.6.0 \
         pymongo \
         pyyaml \
         flask \

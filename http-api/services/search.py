@@ -47,6 +47,12 @@ class Search(Resource):
             transaction = self.database.transactions.find_one({'hash': value})
             if transaction:
                 transaction = get_clean_transaction(transaction)
+                
+                # Retrieve the timestamp of block it belongs to
+                block = self.database.blocks.find_one({'number': transaction['blockNumber']})
+                block_timestamp = block['timestamp']
+                transaction = {'timestamp': block_timestamp, **transaction}
+                
                 return get_output(transaction, 'transaction'), 200
 
             # Check if it is a block
