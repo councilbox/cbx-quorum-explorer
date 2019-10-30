@@ -9,3 +9,4 @@ http-api/build.sh
 webapp/build.sh
 push.sh
 env.sh
+synced-data/

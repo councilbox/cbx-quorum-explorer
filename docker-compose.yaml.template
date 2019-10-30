@@ -31,6 +31,14 @@ services:
     depends_on:
       - mongodb
 
+  metrics:
+    image: councilbox/quorum-explorer-metrics
+    logging: *default-logging
+    volumes:
+      - ./synced-data:/opt/catenae/synced-data
+    depends_on:
+      - mongodb
+
   http-api:
     image: councilbox/quorum-explorer-http-api
     ports:
