@@ -27,6 +27,8 @@ class Metrics(Link):
     def setup(self):
         self.mongodb.set_defaults('quorum')
         self.mongodb.create_index('month_id', collection_name='monthly_metrics')
+        self.mongodb.create_index('year', collection_name='monthly_metrics')
+        self.mongodb.create_index('month', collection_name='monthly_metrics')
 
         self.last_block = svalue('last_block')
         if self.last_block.get() is None:
@@ -51,7 +53,7 @@ class Metrics(Link):
         except ValueError:
             date = datetime.datetime.fromtimestamp(timestamp / 1000)
 
-        month_id = f"{str(date.month).rjust(2, '0')}{date.year}"
+        month_id = f"{date.year}{str(date.month).rjust(2, '0')}"
         return month_id
 
     def update_monthly_txs(self, timestamp, txs_no):
@@ -68,7 +70,8 @@ class Metrics(Link):
             old_txs_no = result['txs_no']
 
         new_txs_no = old_txs_no + txs_no
-        self.mongodb.update(query, {'txs_no': new_txs_no}, collection_name='monthly_metrics')
+        value = {'txs_no': new_txs_no, 'year': int(month_id[2:]), 'month': int(month_id[:2])}
+        self.mongodb.update(query, value, collection_name='monthly_metrics')
 
 
 try:

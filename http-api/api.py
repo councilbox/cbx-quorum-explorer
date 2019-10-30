@@ -27,6 +27,7 @@ from services import (
     transactions,
     accounts,
     search,
+    stats,
 )
 from conf import conf_loader as conf
 import logging
@@ -65,6 +66,13 @@ api.add_resource(health.Health,
                  conf.api['base_url'] + '/status',
                  resource_class_kwargs={'conf': conf})
 
+api.add_resource(stats.MonthlyStats,
+                 conf.api['base_url'] + '/stats/month/<month_id>',
+                 resource_class_kwargs={'conf': conf})
+
+api.add_resource(stats.YearlyStats,
+                 conf.api['base_url'] + '/stats/year/<year>',
+                 resource_class_kwargs={'conf': conf})
 
 if __name__ == "__main__":
     app.run(host=conf.api['bind_address'],
