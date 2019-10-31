@@ -67,7 +67,7 @@ api.add_resource(health.Health,
                  resource_class_kwargs={'conf': conf})
 
 api.add_resource(stats.MonthlyStats,
-                 conf.api['base_url'] + '/stats/month/<month_id>',
+                 conf.api['base_url'] + '/stats/year/<year>/month/<month>',
                  resource_class_kwargs={'conf': conf})
 
 api.add_resource(stats.YearlyStats,

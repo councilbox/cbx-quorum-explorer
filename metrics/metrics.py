@@ -33,6 +33,7 @@ class Metrics(Link):
         self.last_block = svalue('last_block')
         if self.last_block.get() is None:
             self.last_block.set(0)
+            self.mongodb.remove({}, collection_name='monthly_metrics')
         self.loop(self.process_blocks, interval=10)
 
     def process_blocks(self):
@@ -70,7 +71,7 @@ class Metrics(Link):
             old_txs_no = result['txs_no']
 
         new_txs_no = old_txs_no + txs_no
-        value = {'txs_no': new_txs_no, 'year': int(month_id[2:]), 'month': int(month_id[:2])}
+        value = {'txs_no': new_txs_no, 'year': int(month_id[:4]), 'month': int(month_id[4:])}
         self.mongodb.update(query, value, collection_name='monthly_metrics')
 
 

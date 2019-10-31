@@ -25,34 +25,41 @@ from web3 import Web3
 from easyweb3 import EasyWeb3
 import signal
 
+
 class YearlyStats(Resource):
     def __init__(self, conf):
         logging.getLogger().setLevel(logging.INFO)
-        self.mongo_client = MongoClient(conf.mongo['address'],
-                                        conf.mongo['port'])
+        self.mongo_client = MongoClient(conf.mongo['address'], conf.mongo['port'])
         self.database = self.mongo_client.quorum
 
-    def get(self, year):        
+    def get(self, year):
         stats = []
-        for stat in self.database.monthly_metrics.find({'year': year}):
+        for stat in self.database.monthly_metrics.find({'year': int(year)}):
             stat.pop('_id')
+            stat.pop('year')
+            stat.pop('month_id')
             stats.append(stat)
-            return {year: stats}, 200
-        else:
-            return {}, 404
+        
+        http_code = 200
+        if not stats:
+            http_code = 404
+        return {year: stats}, http_code
 
 
 class MonthlyStats(Resource):
     def __init__(self, conf):
         logging.getLogger().setLevel(logging.INFO)
-        self.mongo_client = MongoClient(conf.mongo['address'],
-                                        conf.mongo['port'])
+        self.mongo_client = MongoClient(conf.mongo['address'], conf.mongo['port'])
         self.database = self.mongo_client.quorum
 
-    def get(self, month_id):        
-        stats = self.database.monthly_metrics.find_one({'month_id': month_id})
-        if stats:
-            stats.pop('_id')
-            return stats
+    def get(self, year, month):
+        month_id = f"{year}{str(month).rjust(2, '0')}"
+        stat = self.database.monthly_metrics.find_one({'month_id': month_id})
+        if stat:
+            stat.pop('_id')
+            stat.pop('year')
+            stat.pop('month')
+            stat.pop('month_id')
+            return stat
         else:
             return {}, 404
