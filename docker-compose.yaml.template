@@ -31,6 +31,7 @@ services:
       - QUORUM_ENDPOINTS={{QUORUM_ENDPOINTS}}
     depends_on:
       - mongodb
+    restart: always
 
   metrics:
     image: councilbox/quorum-explorer-metrics
@@ -39,6 +40,7 @@ services:
       - ./synced-data:/opt/catenae/synced-data
     depends_on:
       - mongodb
+    restart: always
 
   http-api:
     image: councilbox/quorum-explorer-http-api
@@ -50,6 +52,7 @@ services:
     logging: *default-logging
     depends_on:
       - mongodb
+    restart: always
 
   webapp:
     image: councilbox/quorum-explorer-webapp:{{WEBAPP_VERSION}}
