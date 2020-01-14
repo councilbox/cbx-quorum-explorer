@@ -48,13 +48,13 @@ class Health(Resource):
         try:
             signal.signal(signal.SIGALRM, lambda: TimeoutError())
             signal.alarm(2)
-            if not self.web3.w3.isConnected():
+            if not self.web3.web3.isConnected():
                 raise ConnectionError
         except Exception:
             return 'DOWN', '/Disconnected/'
         finally:
             signal.alarm(0)
-        return 'UP', self.web3.w3.version.node
+        return 'UP', self.web3.web3.version.node
 
     def get(self):
         quorum_status = self.get_quorum_status()
