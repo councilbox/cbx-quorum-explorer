@@ -8,12 +8,12 @@ class DataLink extends React.Component {
         if(this.props.type === 'blockTransactions'){
             return `/block/${this.props.valueId}/transactions`;
         }
-
         if(this.props.type === 'accountTransactions'){
             return `/account/${this.props.valueId}/transactions`;
         }
+
         if(this.props.children){
-            return `/${this.props.type}/${this.props.children.toString().replace(/[^x0-9]/g, '')}`;
+            return `/${this.props.type}/${this.props.children.toString().replace(/[^0-9a-zA-Z]/g, '')}`;
         }
         return '/';
     }
