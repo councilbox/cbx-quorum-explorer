@@ -25,7 +25,7 @@ export const versions = {
         icon: '/img/cbx-logo-icon.png',
         logo: '/img/cbx-alastria-telsius-logo.png',
         logoAlt: '/img/cbx-logo-alt.png',
-        title: 'CBX Alastria Telsius Explorer by Councilbox'
+        title: 'Alastria Explorer by Councilbox'
     },
 
     "alastria-arrakis": {
