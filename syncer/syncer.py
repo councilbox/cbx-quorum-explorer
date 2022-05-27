@@ -221,9 +221,9 @@ class Syncer:
 
     def insert_tx(self, tx_hash):
         logging.info(f' [+] Inserting tx {tx_hash}...')
-        tx = self.get_tx_data(tx_hash)
-
         try:
+            tx = self.get_tx_data(tx_hash)
+
             self.transactions.update_one({'hash': tx_hash},
                                          {'$set': tx},
                                          upsert=True)
@@ -235,7 +235,7 @@ class Syncer:
             self.update_account(tx['from'])
 
         except Exception:
-            logging.error('Error writing a tx...\n' + str(tx))
+            logging.error('Error writing a tx...\n' + tx_hash)
             logging.exception('')
 
     def update_remote_current_status(self):
