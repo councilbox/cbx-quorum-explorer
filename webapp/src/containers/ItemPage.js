@@ -49,7 +49,7 @@ class ItemPage extends React.Component {
         this.setState({
             loading: true
         })
-        if (this.props.history.location.pathname.includes('transaction')) {
+        if (this.props.history.location.pathname.includes('tx')) {
             this.sendRequest(query, API_TRANSACTION_ENDPOINT)
         } else if (this.props.history.location.pathname.includes('block')) {
             this.sendRequest(query, API_BLOCK_ENDPOINT)
@@ -109,7 +109,7 @@ class ItemPage extends React.Component {
                                     />
                                 }
 
-                                {this.props.history.location.pathname.includes("transaction") &&
+                                {this.props.history.location.pathname.includes("tx") &&
                                     <Transaction
                                         title={this.state.title}
                                         data={this.state.data}
