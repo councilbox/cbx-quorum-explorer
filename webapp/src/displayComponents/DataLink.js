@@ -6,10 +6,10 @@ class DataLink extends React.Component {
     createLink = () => {
 
         if(this.props.type === 'blockTransactions'){
-            return `/block/${this.props.valueId}/transactions`;
+            return `/block/${this.props.valueId}/txs`;
         }
         if(this.props.type === 'accountTransactions'){
-            return `/account/${this.props.valueId}/transactions`;
+            return `/account/${this.props.valueId}/txs`;
         }
 
         if(this.props.children){
