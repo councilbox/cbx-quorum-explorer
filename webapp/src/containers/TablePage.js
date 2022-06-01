@@ -91,10 +91,10 @@ class TablePage extends React.Component {
                 />
             )
 
-        } else if (this.props.location.pathname.includes('transactions')) {
+        } else if (this.props.location.pathname.includes('txs')) {
             return (
                 <TransactionsTable
-                    key="transactions"
+                    key="txs"
                     title={this.state.title}
                     maxPage={this.state.maxPage}
                     data={this.state.data}
