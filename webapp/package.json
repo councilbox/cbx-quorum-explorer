@@ -22,8 +22,8 @@
     "web3": "1.0.0-beta.37"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION=alastria-telsius react-scripts start",
-    "build": "REACT_APP_VERSION=alastria-telsius REACT_APP_MODE=prod react-scripts build",
+    "start": "REACT_APP_VERSION=alastria-redt react-scripts start",
+    "build": "REACT_APP_VERSION=alastria-redt REACT_APP_MODE=prod react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

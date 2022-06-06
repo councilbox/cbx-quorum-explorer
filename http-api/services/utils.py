@@ -49,14 +49,24 @@ def get_clean_transaction(transaction):
         transaction['contractAddress'] = \
             Web3.toChecksumAddress(transaction['contractAddress'])
 
+    # Blacklisted accounts
+    # blacklisted_accounts = [
+    #     '0xCA29910f1382CB62308b3Fef54605870c881a493'.lower(), # Iberdrola
+    # ]
+    # if transaction['from'].lower() in blacklisted_accounts:
+    transaction['input'] = '0x5b72656d6f7665645d' # [removed]
+    transaction['logs'] = [['[removed]']]
+    return transaction
+
     # CBX origin
-    cbx_accounts = ['0xfbca403a012ab7928edCbeEad14AA5c98750459b']
-    if transaction['from'] in cbx_accounts :
+    cbx_accounts = ['0xfbca403a012ab7928edCbeEad14AA5c98750459b'.lower()]
+    if transaction['from'].lower() in cbx_accounts:
         cbx_origin = '✅'
     else:
         cbx_origin = '❌'
 
     function_selector = transaction['input'][2:10]
+
     # Special case #1
     if function_selector == '4e5c851d':
         version = int(transaction['input'][10:74])

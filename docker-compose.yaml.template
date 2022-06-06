@@ -18,6 +18,8 @@ services:
 
   mongodb:
     image: mongo:3.4.10
+    ports:
+      - 27017:27017
     volumes:
       - {{MONGO_DATA_DIR}}:/data/db
     entrypoint: mongod --smallfiles --bind_ip "0.0.0.0" --wiredTigerCacheSizeGB 0.05
@@ -61,6 +63,7 @@ services:
     environment:
       - API_URL=http{{SSL}}://{{API_DOMAIN}}:{{EXTERNAL_API_PORT}}
     logging: *default-logging
+    restart: always
 
   webapp_2:
     image: councilbox/quorum-explorer-webapp:{{WEBAPP_VERSION_2}}
@@ -69,3 +72,4 @@ services:
     environment:
       - API_URL=http{{SSL}}://{{API_DOMAIN}}:{{EXTERNAL_API_PORT}}
     logging: *default-logging
+    restart: always

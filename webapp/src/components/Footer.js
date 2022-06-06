@@ -15,7 +15,7 @@ const Footer = props => (
             dangerouslySetInnerHTML={{ __html: `&mdash;`}}
         />
         <div
-            dangerouslySetInnerHTML={{ __html: `Copyright &copy 2018`}}
+            dangerouslySetInnerHTML={{ __html: `Copyright &copy 2018-` + (new Date()).getFullYear()}}
             style={{marginLeft: '0.3em'}}
         />
         <a href="https://www.councilbox.com" rel="noopener noreferrer" target="_blank" style={{marginLeft: '0.2em', marginRight: '0.2em', color: darkGrey}}>Councilbox Technology S.L.</a>
