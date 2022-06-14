@@ -49,14 +49,26 @@ def get_clean_transaction(transaction):
         transaction['contractAddress'] = \
             Web3.toChecksumAddress(transaction['contractAddress'])
 
+    # Whitelisted accounts
+    whitelist = set(map(lambda address: address.lower(),
+        [
+            '0xd4afa547BF10B665dE5a2aA722CB1a1E133E214D', # dev
+            '0xEAd999d873DaBc5a5bCFc0496522f544725b3db3', # pre
+            '0x3b6f77642bff080cb80a1563Bc103B760EC6a708', # pro
+        ]
+    )) 
+
     # Blacklisted accounts
-    # blacklisted_accounts = [
-    #     '0xCA29910f1382CB62308b3Fef54605870c881a493'.lower(), # Iberdrola
-    # ]
-    # if transaction['from'].lower() in blacklisted_accounts:
-    transaction['input'] = '0x5b72656d6f7665645d' # [removed]
-    transaction['logs'] = [['[removed]']]
-    return transaction
+    blacklist = set(map(lambda address: address.lower(),
+        [
+            '0xCA29910f1382CB62308b3Fef54605870c881a493', # Iberdrola
+        ]
+    )) 
+
+    if transaction['from'].lower() not in whitelist:
+        transaction['input'] = '0x5b72656d6f7665645d' # [removed]
+        transaction['logs'] = [['[removed]']]
+        return transaction
 
     # CBX origin
     cbx_accounts = ['0xfbca403a012ab7928edCbeEad14AA5c98750459b'.lower()]
