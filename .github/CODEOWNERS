@@ -2,3 +2,4 @@
 # WARNING: Please don't edit this file directly in the repository
 # Go to gitops repository to modify it!
 *                        @brunneis
+/.github/                @councilbox/infra
