@@ -27,7 +27,7 @@ class DataRow extends React.Component {
             const { value } = this.props;
             if (this.props.valueKey && value !== null) {
                 const key = this.props.valueKey;
-                if (key === "transactions") {
+                if (key === "txs") {
                     if (this.props.location.pathname.includes("block")) {
                         return this.props.value === 0? '0 transactions' :
                             <span>
@@ -90,7 +90,7 @@ class DataRow extends React.Component {
                 if (key === "transactionHash" || key === "creationTransaction") {
                     return <DataLink
                         history={this.props.history}
-                        type='transaction' >
+                        type='tx' >
                         {this.props.value}
                     </DataLink>
                 }

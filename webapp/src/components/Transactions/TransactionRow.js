@@ -36,7 +36,7 @@ const TransactionRow = props => {
                         <GridItem xs={7} lg={7} md={7}>
                             <DataLink
                                 history={props.history}
-                                type='transaction' >
+                                type='tx' >
                                 {props.data.hash}
                             </DataLink>
                         </GridItem>
@@ -66,7 +66,7 @@ const TransactionRow = props => {
                     <GridItem xs={3} md={3} lg={3} style={{...overflowText, display: 'flex', justifyItems: 'center', padding: '0.8em', borderBottom: '1px solid gainsboro', paddingLeft: '1.2em'}}>
                         <DataLink
                             history={props.history}
-                            type='transaction' >
+                            type='tx' >
                             {props.data.hash}
                         </DataLink>
                     </GridItem>

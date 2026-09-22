@@ -13,7 +13,7 @@ const TopLinks = [
     },
     {
         text: 'Transactions',
-        url: '/transactions',
+        url: '/txs',
         icon: 'wrap_text'
     },
 ]
